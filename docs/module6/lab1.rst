@@ -108,7 +108,7 @@ Set your extra variable back to default with this configuration. Copy and paste 
 .. literalinclude :: ../module5/files/f5_automation_toolchain_template_extra_variables.yml
    :language: yaml
 
-The default value of `9092` for extra variable `consumerPort` needs to be replaced with your service exposed port.
+The default value of `9092` for extra variable `kafkaConsumerPort` needs to be replaced with your service exposed port.
 
   |image13| 
 

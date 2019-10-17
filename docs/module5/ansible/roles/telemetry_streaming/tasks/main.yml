@@ -43,7 +43,7 @@
   until: "(result | success) and (result.status == 200)"
 
 - name: Prepare the TS declaration
-  template: src="{{ role_path }}/files/ts_kafka.json" dest="{{ role_path }}/files/{{ forwarderName }}_declaration.json"
+  template: src="{{ role_path }}/files/ts_declaration.json" dest="{{ role_path }}/files/{{ forwarderName }}_declaration.json"
   delegate_to: localhost
 
 - name: Create or update {{ forwarderName }}; AS3 Build Simple HTTP Application

@@ -104,7 +104,7 @@
                         "requestPool": {
                             "use": "HSLPool"
                         },
-                        "requestTemplate": "event_source=\\\"request_logging\\\",hostname=\\\"$BIGIP_HOSTNAME\\\",client_ip=\\\"$CLIENT_IP\\\",server_ip=\\\"$SERVER_IP\\\",http_method=\\\"$HTTP_METHOD\\\",http_uri=\\\"$HTTP_URI\\\",virtual_name=\\\"$VIRTUAL_NAME\\\""
+                        "requestTemplate": "event_source=\"request_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",date_time=\"$DATE_HTTP\""
                     },
                     "responseSettings": {
                         "byDefaultEnabled": false,

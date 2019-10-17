@@ -91,7 +91,7 @@ Declaration for BIGIP1:
 
 Copy **all of** the below TS declaration.
 
-.. literalinclude :: ../module5/ansible/roles/telemetry_streaming/files/ts_kafka.json
+.. literalinclude :: ../module5/ansible/roles/telemetry_streaming/files/ts_declaration.json
    :language: json
 
 Task |labmodule|\.\ |labnum|\.6

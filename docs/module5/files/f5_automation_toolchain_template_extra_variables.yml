@@ -15,5 +15,16 @@ virtualAddresses2: "10.1.10.111"
 servicePort: "8081"
 
 # Used for Telemetry Streaming
+ubuntuDockerHost: "10.1.1.5"
 forwarderName: "tsdemo"
-consumerPort: "9092"
+kafkaConsumerPort: "9092"
+statsdConsumerPort: "8125"
+
+elasticSearchPort: "9200"
+elasticSearchBaseUrl: "http://{{ ubuntuDockerHost }}:{{ elasticSearchPort }}"
+elasticSearchIndex: "f5telemetryindex"
+
+grafanaPort: "3030"
+grafanaBaseUrl: "http://{{ ubuntuDockerHost }}:{{ grafanaPort }}"
+grafanaUsername: "admin"
+grafanaPassword: "admin"

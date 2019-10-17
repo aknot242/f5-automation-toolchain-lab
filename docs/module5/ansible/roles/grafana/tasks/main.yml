@@ -1,0 +1,62 @@
+# Set up Grafana datasources and grafana_dashboard
+
+- name: Get all existing datasources
+  uri:
+    url: "{{ grafanaBaseUrl }}/api/datasources"
+    user: "{{ grafanaUsername }}"
+    password: "{{ grafanaPassword }}"
+    method: GET
+    force_basic_auth: true
+    status_code: 200
+  register: grafana_datasources
+
+- name: Create datasource list from json
+  set_fact:
+    grafana_datasources_list: "{{ grafana_datasources.json | json_query('[*].name') }}"
+
+- name: Delete all existing datasources
+  uri:
+    url: "{{ grafanaBaseUrl }}/api/datasources/name/{{ item }}"
+    user: "{{ grafanaUsername }}"
+    password: "{{ grafanaPassword }}"
+    method: DELETE
+    force_basic_auth: true
+    status_code: 200
+  loop: "{{ grafana_datasources_list }}"
+
+- name: Create grafana datasources
+  uri:
+    url: "{{ grafanaBaseUrl }}/api/datasources"
+    user: "{{ grafanaUsername }}"
+    password: "{{ grafanaPassword }}"
+    method: POST
+    body: "{{ lookup('file', item) }}"
+    force_basic_auth: true
+    status_code: 200
+    body_format: json
+  with_fileglob:
+    - "files/grafana/datasources/*.json"
+
+- name: Create grafana dashboard
+  uri:
+    url: "{{ grafanaBaseUrl }}/api/dashboards/db"
+    user: "{{ grafanaUsername }}"
+    password: "{{ grafanaPassword }}"
+    method: POST
+    body: "{{ lookup('file', item) }}"
+    force_basic_auth: true
+    status_code: 200
+    body_format: json
+  with_fileglob:
+    - "files/grafana/dashboards/*.json"
+
+- name: Set default dashboard
+  uri:
+    url: "{{ grafanaBaseUrl }}/api/org/preferences"
+    user: "{{ grafanaUsername }}"
+    password: "{{ grafanaPassword }}"
+    method: PUT
+    body: '{"homeDashboardId":1}'
+    force_basic_auth: true
+    status_code: 200
+    body_format: json

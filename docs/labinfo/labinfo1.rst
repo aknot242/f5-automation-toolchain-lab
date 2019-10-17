@@ -19,6 +19,8 @@ Lab Topology
         - Hack-a-Zon
         - f5 http demo
         - wurstmeister Kafka/zookeeper
+        - Grafana
+        - StatsD/Graphite
 - 2 x BIG-IP
 - 1 x BIG-IQ Centralized Manager
 - 1 x BIG-IQ Data Collection Device (future use)
