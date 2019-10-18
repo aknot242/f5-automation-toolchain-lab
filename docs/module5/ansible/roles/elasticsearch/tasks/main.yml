@@ -26,7 +26,7 @@
   uri:
     url: "{{ elasticSearchBaseUrl }}/{{ elasticSearchIndex }}"
     method: PUT
-    body: "{{ lookup('file','./files/elasticsearch/index-settings.json') }}"
+    body: "{{ lookup('file','{{ role_path }}/files/index-settings.json') }}"
     status_code: 200
     body_format: json
   when: index_check.status == 404
@@ -35,6 +35,6 @@
   uri:
     url: "{{ elasticSearchBaseUrl }}/{{ elasticSearchIndex }}/_mapping"
     method: PUT
-    body: "{{ lookup('file','./files/elasticsearch/mappings-settings.json') }}"
+    body: "{{ lookup('file','{{ role_path }}/files/mappings-settings.json') }}"
     status_code: 200
     body_format: json

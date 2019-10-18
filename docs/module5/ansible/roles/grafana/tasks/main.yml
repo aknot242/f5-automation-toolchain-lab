@@ -35,7 +35,7 @@
     status_code: 200
     body_format: json
   with_fileglob:
-    - "files/grafana/datasources/*.json"
+    - "{{ role_path }}/files/datasources/*.json"
 
 - name: Create grafana dashboard
   uri:
@@ -48,7 +48,7 @@
     status_code: 200
     body_format: json
   with_fileglob:
-    - "files/grafana/dashboards/*.json"
+    - "{{ role_path }}/files/dashboards/*.json"
 
 - name: Set default dashboard
   uri:
