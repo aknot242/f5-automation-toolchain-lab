@@ -17,8 +17,11 @@ servicePort: "8081"
 # Used for Telemetry Streaming
 ubuntuDockerHost: "10.1.1.5"
 forwarderName: "tsdemo"
-kafkaConsumerPort: "9092"
-statsdConsumerPort: "8125"
+
+kafkaPort: "9092"
+kafkaTopic: "f5-telemetry"
+
+statsDPort: "8125"
 
 elasticSearchPort: "9200"
 elasticSearchBaseUrl: "http://{{ ubuntuDockerHost }}:{{ elasticSearchPort }}"
