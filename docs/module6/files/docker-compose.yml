@@ -29,6 +29,5 @@ services:
     depends_on:
       - graphite
       - elasticsearch
-      - zookeeper
     ports:
       - "3030:3000"
