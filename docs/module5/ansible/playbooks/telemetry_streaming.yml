@@ -3,3 +3,5 @@
   hosts: localhost
   roles:
     - telemetry_streaming
+    - elasticsearch
+    - grafana
