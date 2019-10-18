@@ -18,7 +18,6 @@ Lab Topology
         - DVWA
         - Hack-a-Zon
         - f5 http demo
-        - wurstmeister Kafka/zookeeper
         - Grafana
         - StatsD/Graphite
 - 2 x BIG-IP

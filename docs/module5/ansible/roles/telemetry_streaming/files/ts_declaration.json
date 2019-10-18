@@ -13,14 +13,6 @@
         "class": "Telemetry_Listener",
         "port": 6514
     },
-    "Kafka_Consumer": {
-        "class": "Telemetry_Consumer",
-        "type": "Kafka",
-        "host": "{{ubuntuDockerHost}}",
-        "protocol": "binaryTcp",
-        "port": {{kafkaPort}},
-        "topic": "{{kafkaTopic}}"
-    },
     "StatsD_Consumer": {
         "class": "Telemetry_Consumer",  
         "type": "Statsd",

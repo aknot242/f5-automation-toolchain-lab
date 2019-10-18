@@ -18,9 +18,6 @@ servicePort: "8081"
 ubuntuDockerHost: "10.1.1.5"
 forwarderName: "tsdemo"
 
-kafkaPort: "9092"
-kafkaTopic: "f5-telemetry"
-
 statsDPort: "8125"
 
 elasticSearchPort: "9200"
