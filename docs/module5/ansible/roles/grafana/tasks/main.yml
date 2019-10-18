@@ -26,7 +26,7 @@
 
 - name: Prepare the grafana datasources
   template:
-    src: {{ item }}
+    src: "{{ item }}"
     dest: "{{ role_path }}/files/datasources/{{ item | basename | regex_replace('\\.j2','.json') }}"
   with_fileglob:
     - ../templates/datasources/*.j2
