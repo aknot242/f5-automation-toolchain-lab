@@ -20,6 +20,9 @@ forwarderName: "tsdemo"
 
 statsDPort: "8125"
 
+graphitePort: "8085"
+graphiteBaseUrl: "http://{{ ubuntuDockerHost }}:{{ graphitePort }}"
+
 elasticSearchPort: "9200"
 elasticSearchBaseUrl: "http://{{ ubuntuDockerHost }}:{{ elasticSearchPort }}"
 elasticSearchIndex: "f5telemetryindex"

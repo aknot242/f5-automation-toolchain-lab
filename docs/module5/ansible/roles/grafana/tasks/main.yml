@@ -24,6 +24,14 @@
     status_code: 200
   loop: "{{ grafana_datasources_list }}"
 
+- name: Prepare the grafana datasources
+  template:
+    src: {{ item }}
+    dest: "{{ role_path }}/files/datasources/{{ item | basename | regex_replace('\\.j2','.json') }}"
+  with_fileglob:
+    - ../templates/datasources/*.j2
+  delegate_to: localhost
+
 - name: Create grafana datasources
   uri:
     url: "{{ grafanaBaseUrl }}/api/datasources"
