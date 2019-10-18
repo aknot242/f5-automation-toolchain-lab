@@ -1,6 +1,6 @@
 # Set up ElasticSearch index and types
 
-- name: Wait for grafana to come up before configuring ElasticSearch
+- name: Wait for ElasticSearch to come up before configuring
   uri:
     url: "{{ elasticSearchBaseUrl }}/"
     status_code: 200
@@ -9,7 +9,7 @@
   retries: 20
   delay: 5
 
-- name: Check if ElasticSearch index exists
+- name: Check if ElasticSearch index {{ elasticSearchIndex }} exists
   uri:
     url: "{{ elasticSearchBaseUrl }}/{{ elasticSearchIndex }}"
     method: GET
@@ -22,16 +22,24 @@
     var: index_check
     verbosity: 2
 
-- name: Set ElasticSearch Index settings
+- name: Create {{ elasticSearchIndex }} index if does not exist
   uri:
     url: "{{ elasticSearchBaseUrl }}/{{ elasticSearchIndex }}"
     method: PUT
-    body: "{{ lookup('file','{{ role_path }}/files/index-settings.json') }}"
+    body: "{}"
     status_code: 200
     body_format: json
   when: index_check.status == 404
 
-- name: ElasticSearch Mappings settings
+- name: Update {{ elasticSearchIndex }} index settings
+  uri:
+    url: "{{ elasticSearchBaseUrl }}/{{ elasticSearchIndex }}/_settings"
+    method: PUT
+    body: "{{ lookup('file','{{ role_path }}/files/index-settings.json') }}"
+    status_code: 200
+    body_format: json
+
+- name: Update {{ elasticSearchIndex }} mappings settings
   uri:
     url: "{{ elasticSearchBaseUrl }}/{{ elasticSearchIndex }}/_mapping"
     method: PUT
