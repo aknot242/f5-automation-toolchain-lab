@@ -29,8 +29,12 @@
   set_fact:
     bigip1_auth_token: "{{ bigip1_auth_response.json.token.token }}"
 
+- name: Prepare the common AS3 objects declaration from the template
+  template: src="{{ role_path }}/templates/as3_common.j2" dest="{{ role_path }}/files/as3_common.json"
+  delegate_to: localhost
+
 - name: Prepare the AS3 declaration
-  template: src="{{ role_path }}/files/as3_ssl_redirect.json" dest="{{ role_path }}/files/{{ serviceName }}_declaration.json"
+  template: src="{{ role_path }}/templates/as3_ssl_redirect.j2" dest="{{ role_path }}/files/{{ serviceName }}_declaration.json"
   delegate_to: localhost
 
 - name: Validate {{deviceName1}} AS3 Rest Worker is ready
@@ -46,10 +50,18 @@
   register: result
   until: "(result | success) and (result.status == 200)"
 
+- name: Deploy common AS3 objects for use by Telemetry Streaming
+  bigip_appsvcs_extension:
+    content: "{{ lookup('file', '{{ role_path }}/files/as3_common.json') }}"
+    state: present
+    provider: "{{ bigip_provider }}"
+    validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+
 - name: Create or update {{ serviceName }}; HTTP and HTTPS virtual services in one declaration
   delegate_to: localhost
   uri:
-    body: "{{ lookup('file','{{ role_path }}/files/' + '{{ serviceName }}_declaration.json') }}"
+    body: "{{ lookup('file','{{ role_path }}/files/{{ serviceName }}_declaration.json') }}"
     body_format: json
     headers:
       X-F5-Auth-Token: "{{ bigip1_auth_token }}"

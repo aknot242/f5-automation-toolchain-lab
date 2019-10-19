@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/F5Networks/f5-appsvcs-extension/master/schema/latest/as3-schema-3.9.0-3.json",
+    "$schema": "https://raw.githubusercontent.com/F5Networks/f5-appsvcs-extension/master/schema/3.9.0/as3-schema-3.9.0-3.json",
     "class": "AS3",
     "action": "deploy",
     "persist": true,
@@ -50,7 +50,7 @@
                     ],
                     "pool": "https_pool",
                     "profileTrafficLog": {
-                        "use": "trafLogProf"
+                        "bigip": "/Common/Shared/telemetry_traffic_log_profile"
                     },
                     "serverTLS": "webtls"
                 },
@@ -86,57 +86,6 @@
                         "ciphertext": "ZjVmNQ==",
                         "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0"
                     }
-                },
-                "trafLogProf": {
-                    "class": "Traffic_Log_Profile",
-                    "requestSettings": {
-                        "requestErrorLoggingEnabled": true,
-                        "proxyCloseOnErrorEnabled": true,
-                        "proxyRespondOnLoggingErrorEnabled": true,
-                        "requestErrorProtocol": "mds-tcp",
-                        "requestProtocol": "mds-tcp",
-                        "requestEnabled": true,
-                        "proxyResponse": "Proxy Response",
-                        "requestErrorPool": {
-                            "use": "HSLPool"
-                        },
-                        "requestErrorTemplate": "ERR TEMPLATE:",
-                        "requestPool": {
-                            "use": "HSLPool"
-                        },
-                        "requestTemplate": "event_source=\"request_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",date_time=\"$DATE_HTTP\""
-                    },
-                    "responseSettings": {
-                        "byDefaultEnabled": false,
-                        "responseErrorLoggingEnabled": true,
-                        "responseErrorProtocol": "mds-tcp",
-                        "responseProtocol": "mds-tcp",
-                        "responseEnabled": true,
-                        "responseErrorPool": {
-                            "use": "HSLPool"
-                        },
-                        "responseErrorTemplate": "ERROR: ",
-                        "responsePool": {
-                            "use": "HSLPool"
-                        },
-                        "responseTemplate": "TEMPLATE"
-                    }
-                },
-                "HSLPool": {
-                    "class": "Pool",
-                    "monitors": [
-                        "tcp"
-                    ],
-                    "members": [
-                        {
-                            "servicePort": 6514,
-                            "serverAddresses": [
-                                "10.1.1.8",
-                                "10.1.1.10"
-                            ],
-                            "shareNodes": true
-                        }
-                    ]
                 }
             }
         }

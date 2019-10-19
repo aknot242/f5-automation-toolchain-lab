@@ -15,6 +15,8 @@ virtualAddresses2: "10.1.10.111"
 servicePort: "8081"
 
 # Used for Telemetry Streaming
+TSListenerPort: 6514
+logPool: 10.1.20.9
 ubuntuDockerHost: "10.1.1.5"
 forwarderName: "tsdemo"
 
