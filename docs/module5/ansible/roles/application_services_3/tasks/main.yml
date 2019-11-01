@@ -5,25 +5,22 @@
 - name: Wait a maximum of 300 seconds for BIG-IP to be ready to take configuration
   bigip_wait:
     timeout: 300
-    password: "{{BIGIPadminPassword}}"
-    server: "{{deviceName1}}"
-    user: "{{BIGIPadminUsername}}"
-    validate_certs: no
+    provider: "{{bigip1Provider}}"
   delegate_to: localhost
 
-- name: Get BIG-IP Authentication Token from {{deviceName1}}
+- name: Get BIG-IP Authentication Token from {{bigip1Provider.server}}
   delegate_to: localhost
   uri:
-    body: '{"username":"{{BIGIPadminUsername}}","password":"{{BIGIPadminPassword}}","loginProviderName":"tmos"}'
+    body: '{"username":"{{bigip1Provider.user}}","password":"{{bigip1Provider.password}}","loginProviderName":"tmos"}'
     body_format: json
     method: POST
-    url: "https://{{deviceName1}}/mgmt/shared/authn/login"
+    url: "https://{{bigip1Provider.server}}/mgmt/shared/authn/login"
     status_code: 200
-    validate_certs: no
+    validate_certs: "{{bigip1Provider.validate_certs}}"
   register: bigip1_auth_response
   retries: 30
   delay: 5
-  until: "(bigip1_auth_response | success) and (bigip1_auth_response.status == 200)"
+  until: "(bigip1_auth_response is successful) and (bigip1_auth_response.status == 200)"
 
 - name: Assign Auth Token to Variable
   set_fact:
@@ -37,25 +34,24 @@
   template: src="{{ role_path }}/templates/as3_ssl_redirect.j2" dest="{{ role_path }}/files/{{ serviceName }}_declaration.json"
   delegate_to: localhost
 
-- name: Validate {{deviceName1}} AS3 Rest Worker is ready
+- name: Validate {{bigip1Provider.server}} AS3 Rest Worker is ready
   delegate_to: localhost
   uri:
     headers:
       X-F5-Auth-Token: "{{ bigip1_auth_token }}"
     method: GET
-    url: "https://{{deviceName1}}/mgmt/shared/appsvcs/available"
-    validate_certs: no
+    url: "https://{{bigip1Provider.server}}/mgmt/shared/appsvcs/available"
+    validate_certs: "{{bigip1Provider.validate_certs}}"
   retries: 30
   delay: 5
   register: result
-  until: "(result | success) and (result.status == 200)"
+  until: "(result is successful) and (result.status == 200)"
 
 - name: Deploy common AS3 objects for use by Telemetry Streaming
   bigip_appsvcs_extension:
     content: "{{ lookup('file', '{{ role_path }}/files/as3_common.json') }}"
     state: present
     provider: "{{ bigip_provider }}"
-    validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
 
 - name: Create or update {{ serviceName }}; HTTP and HTTPS virtual services in one declaration
@@ -67,5 +63,5 @@
       X-F5-Auth-Token: "{{ bigip1_auth_token }}"
     method: POST
     status_code: 200
-    url: "https://{{deviceName1}}/mgmt/shared/appsvcs/declare"
-    validate_certs: no
+    url: "https://{{bigip1Provider.server}}/mgmt/shared/appsvcs/declare"
+    validate_certs: "{{bigip1Provider.validate_certs}}"

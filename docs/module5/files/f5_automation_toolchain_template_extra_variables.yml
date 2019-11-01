@@ -1,11 +1,16 @@
 ---
-# Credentials
-BIGIPadminUsername: "admin"
-BIGIPadminPassword: "admin"
+# BIG-IP connection variables
+bigip1Provider:
+    server: "10.1.1.8"
+    user: admin
+    password: admin
+    validate_certs: false
 
-# Used for Declarative Onboarding
-deviceName1: "10.1.1.8"
-deviceName2: "10.1.1.10"
+bigip2Provider:
+    server: "10.1.1.10"
+    user: admin
+    password: admin
+    validate_certs: false
 
 # Used for Application Services 3
 partition: "Module_03"
